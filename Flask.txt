@@ -1,0 +1,79 @@
+Flask
+============
+purna.py
+----------------
+from flask import Flask,request,render_template
+app=Flask(__name__)
+@app.route('/')
+def hello():
+    return render_template("login.html")
+database={'Purna':'Durga','Madhu':'1123'}
+@app.route('/form_login',methods=['POST','GET'])
+def login():
+    name1=request.form['firstname']
+    name2=request.form['lastname']
+    name3=request.form['email']
+    name4=request.form['phoneno']
+    name5=request.form['address']
+
+
+    if name1 not in database:
+        return render_template('login.html',info='Invalid name')
+    else:
+        if database[name1]!=name2:
+            return render_template('login.html', info='Invalid name')
+        else:
+            return render_template('home.html', name=name1, lname=name2, email=name3, phoneno=name4, address=name5)
+
+
+if __name__=='__main__':
+    app.run(debug=True)
+===============================================================================================================================
+templates---- home.html
+-----------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body bgcolor="lightblue">
+<br>
+<h1 align="center"><i>MY RESUME</i></h1>
+<img src="https://th.bing.com/th/id/OIP.Ww3bOniEBasIHKfMgAwPvAHaI1?w=136&h=180&c=7&o=5&pid=1.7" alt="my image" width="400" height="550" border="5" align="right" />
+
+<h2 align="left">Firstname: {{name}}</h2>
+<h2 align="left">Lastname: {{lname}}</h2>
+<h2 align="left">Email: {{email}}</h2>
+<h2 align="left">Phoneno: {{phoneno}}</h2>
+<h2 align="left">Address: {{address}}</h2>
+
+</body>
+</html>
+=============================================================================================================================================================================
+login.html
+----------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login page</title>
+</head>
+<body bgcolor="orange">
+<form action="/form_login" method="post">
+    <h1>Form</h1>
+    <h2></h2>Firstname:<br>
+    <input type="text" name="firstname"><br>
+    lastname:<br>
+    <input type="text" name="lastname"><br>
+    email:<br>
+    <input type="text" name="email"><br>
+    phoneno:<br>
+    <input type="text" name="phoneno"><br>
+    address:<br>
+    <input type="text" name="address"><br>
+    <input type="submit" value="login">
+</form>
+<h1>{{info}}</h1>
+</body>
+</html>
